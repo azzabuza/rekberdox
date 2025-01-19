@@ -54,6 +54,14 @@ calculateTotal();
 // Hitung ulang total saat jumlah barang berubah
 document.getElementById('quantity').addEventListener('input', calculateTotal);
 
+// Menetapkan kode unik pada saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function () {
+  const uniqueCode = `TRX-${Date.now()}`;  // Menambahkan awalan "TRX-"
+  document.getElementById('unique-code').value = uniqueCode;
+  calculateTotal();
+});
+
+
 // Menangani pengiriman formulir
 document.getElementById('shoppingForm').addEventListener('submit', async function (e) {
 e.preventDefault();
@@ -81,7 +89,7 @@ if (!response.ok) throw new Error(`Server error: ${response.status}`);
 const result = await response.json();
 displayPaymentInfo(formData, adminFee, total);
 e.target.reset();
-calculateTotal(); // Reset biaya admin dan total setelah submit
+calculateTotal();
 } catch (error) {
 console.error('Fetch Error:', error);
 alert("Gagal membuat transaksi.");
@@ -100,6 +108,9 @@ document.getElementById("waiting-process").style.display = isLoading ? "block" :
 function displayPaymentInfo(formData, adminFee, total) {
 const paymentInfo = document.querySelector(".info-payment");
 
+// Ambil kode unik
+const uniqueCode = formData.get("Kode Transaksi");
+
 // Format nilai admin-fee dan total
 const adminFeeFormatted = `Rp ${parseInt(formData.get("admin-fee").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
 const totalFormatted = `Rp ${parseInt(formData.get("total").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
@@ -107,6 +118,7 @@ const totalFormatted = `Rp ${parseInt(formData.get("total").replace(/[^0-9]/g, '
 paymentInfo.innerHTML = `
 <div class="payment-content">
 <h3>Transaksi Berhasil Dibuat</h3>
+<p>Kode transaksi: <b>${uniqueCode}</b></p>
 <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
 <div class="data-payment">
 <table>
