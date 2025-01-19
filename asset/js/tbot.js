@@ -12,6 +12,7 @@ const quantity = document.getElementById('quantity').value;
 const condition = document.getElementById('condition').value;
 const adminFee = document.getElementById('admin-fee').value;
 const total = document.getElementById('total').value;
+const trx = document.getElementById('unique-code').value;
 
 // GET CURRENT DATE AND TIME
 const now = new Date();
@@ -29,18 +30,19 @@ second: '2-digit'
 // MESSAGE FORMAT FOR BOTS
 const message = `
 <b>MIN ADA ORDERAN REKBER NIH!!!</b>\n
-<b>Tanggal:</b> ${formattedDate}\n
-<b>Waktu:</b> ${formattedTime}\n\n
-<b>Nama Penjual:</b> ${name1}\n
-<b>WA Penjual:</b> ${whatsapp1}\n
-<b>Nama Pembeli:</b> ${name2}\n
-<b>WA Pembeli:</b> ${whatsapp2}\n\n
-<b>Produk:</b> ${product}\n
-<b>Harga:</b> ${price}\n
-<b>Jumlah:</b> ${quantity}\n
-<b>Kondisi:</b> ${condition}\n\n
-<b>Biaya Admin:</b> ${adminFee}\n
+<b>Tanggal:</b> ${formattedDate}
+<b>Waktu:</b> ${formattedTime}\n
+<b>Nama Penjual:</b> ${name1}
+<b>WA Penjual:</b> ${whatsapp1}
+<b>Nama Pembeli:</b> ${name2}
+<b>WA Pembeli:</b> ${whatsapp2}\n
+<b>Produk:</b> ${product}
+<b>Harga:</b> ${price}
+<b>Jumlah:</b> ${quantity}
+<b>Kondisi:</b> ${condition}\n
+<b>Biaya Admin:</b> ${adminFee}
 <b>Total:</b> ${total}
+<b>Kode Transaksi:</b> ${trx}
 `;
 
 // SEND DATA TO TELEGRAM BOT
