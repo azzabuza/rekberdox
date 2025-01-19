@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>IDRekber - Formulir Rekber</title>
+<!-- PLUGIN -->
+<link href="../asset/css/global.css" rel="stylesheet">
+</head>
+<body>
+<main class="content-wrapper">
+<section class="header" id="header"></section>
+<section class="panel">
+<div class="panel-content">
+<h2>Lengkapi Formulir</h2>
+<p>Silahkan isi semua data dengan benar dan cek kembali data sebelum melakukan submit</p>
+</div>
+</section>
+<section class="shopping">
+<form id="shoppingForm" class="shopping-form" itemscope itemtype="https://schema.org/shopping">
+<div class="shopping-side">
+<h3>Data Penjual</h3>
+<div class="shopping-item">
+<input type="text" id="name1" name="Nama Penjual" placeholder="Nama lengkap" autocomplete="off" required>
+<input type="tel" id="whatsapp1" name="Nomor Penjual" placeholder="Nomor whatsapp" autocomplete="off" required>
+</div>
+</div>
+<div class="shopping-side">
+<h3>Data Pembeli</h3>
+<div class="shopping-item">
+<input type="text" id="name2" name="Nama Pembeli" placeholder="Nama lengkap" autocomplete="off" required>
+<input type="tel" id="whatsapp2" name="Nomor Pembeli" placeholder="Nomor whatsapp" autocomplete="off" required>
+</div>
+</div>
+<div class="shopping-side">
+<h3>Data Barang</h3>
+<div class="shopping-item">
+<input type="text" id="product" name="Nama Barang" placeholder="Nama produk" autocomplete="off" required>
+<input type="text" id="price" name="Harga Satuan" placeholder="Rp.0 (harga satuan)" autocomplete="off" required>
+<input type="number" id="quantity" name="Jumlah Barang" placeholder="Jumlah barang" autocomplete="off" min="1" max="1000" required>
+<select id="condition" name="Kondisi Barang" required>
+<option disabled selected hidden value="">Pilih kondisi</option>
+<option value="Baru">Baru</option>
+<option value="Bekas">Bekas</option>
+</select>
+</div>
+</div>
+<div class="shopping-data">
+<table>
+<tr>
+<td style="font-weight:500;">Biaya Admin</td>
+<td><input type="text" id="admin-fee" name="Biaya Admin" value="0" readonly></td>
+</tr>
+<tr>
+<td style="font-weight:500;">Total</td>
+<td><input type="text" id="total" name="Total" value="0" readonly></td>
+</tr>
+</table>
+</div>
+<div class="shopping-action">
+<button type="submit" class="shopping-button">Buat Transaksi</button>
+<div id="waiting-process" style="display:none;">Tunggu.</div>
+</div>
+</form>
+</section>
+<section class="info-payment"></section>
+<section class="footer" id="footer"></section>
+</main>
+<script src="../asset/js/tbot.js"></script>
+<script src="../asset/js/form.js"></script>
+<script src="../asset/js/global.js"></script>
+</body>
+</html>
