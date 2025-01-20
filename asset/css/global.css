@@ -934,7 +934,7 @@ z-index:3;
 position:fixed;
 max-width:1000px;
 width:100%;
-bottom:90px;
+bottom:0;
 display:none;
 }
 .socialproof-content{
@@ -1239,6 +1239,9 @@ display:block;
 }
 .footer-box{
 grid-template-columns:repeat(1, 1fr);
+}
+.socialproof{
+bottom:90px;
 }
 .socialproof-content{
 max-width:80%;
