@@ -1,10 +1,9 @@
-apakah ada yang salah dari kode berikut?
 // URL Script Apps
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx9VidO21wA6S6VVTGg2Lrb6rGS8-QMkiS3pOl5OjiydhRGfr-JA0sCEQbUGxTmC0fhYQ/exec';
 
 // Format angka dengan titik pemisah ribuan dan awalan "Rp"
 function formatRupiah(value) {
-const number = value.replace(/[^0-9]/g, ''); // Hanya angka yang diperbolehkan
+const number = value.replace(/[^0-9]/g, '');
 if (!number) return 'Rp 0';
 return `Rp ${parseInt(number, 10).toLocaleString('id-ID')}`;
 }
@@ -25,7 +24,7 @@ function calculateTotal() {
 const priceValue = document.getElementById('price').value.replace(/[^0-9]/g, '');
 const quantity = parseInt(document.getElementById('quantity').value) || 0;
 const price = parseInt(priceValue) || 0;
-const shippingFeeValue = document.getElementById('shipping-fee').getAttribute('data-value') || 0; // Mengambil nilai asli dari data atribut
+const shippingFeeValue = document.getElementById('shipping-fee').getAttribute('data-value') || 0;
 const shippingFee = parseInt(shippingFeeValue) || 0;
 
 // Validasi input
@@ -43,22 +42,22 @@ const total = subtotal + adminFee + shippingFee;
 // Tampilkan biaya admin, biaya pengiriman, dan total
 document.getElementById('admin-fee').value = `Rp ${adminFee.toLocaleString('id-ID')}`;
 document.getElementById('total').value = `Rp ${total.toLocaleString('id-ID')}`;
-document.getElementById('shipping-fee').value = formatRupiah(shippingFeeValue); // Format biaya pengiriman menjadi Rupiah
+document.getElementById('shipping-fee').value = formatRupiah(shippingFeeValue);
 
 return { adminFee, total, shippingFee };
 }
 
 // Format rupiah pada input harga
 document.getElementById('price').addEventListener('input', function (e) {
-const rawValue = e.target.value.replace(/[^0-9]/g, ''); // Menghapus karakter selain angka
-e.target.value = formatRupiah(rawValue); // Mengubah format menjadi Rupiah
+const rawValue = e.target.value.replace(/[^0-9]/g, '');
+e.target.value = formatRupiah(rawValue);
 calculateTotal();
 });
 
 // Format rupiah pada input shipping fee (biaya pengiriman)
 document.getElementById('shipping-fee').addEventListener('input', function (e) {
-const rawValue = e.target.value.replace(/[^0-9]/g, ''); // Menghapus karakter selain angka
-const formattedValue = formatRupiah(rawValue); // Format menjadi Rupiah
+const rawValue = e.target.value.replace(/[^0-9]/g, '');
+const formattedValue = formatRupiah(rawValue);
 
 // Menyimpan nilai asli (tanpa format Rupiah) di data atribut
 e.target.setAttribute('data-value', rawValue);
@@ -106,7 +105,7 @@ if (!response.ok) throw new Error(`Server error: ${response.status}`);
 const result = await response.json();
 displayPaymentInfo(formData, adminFee, total, shippingFee);
 e.target.reset();
-calculateTotal(); // Reset biaya admin dan total setelah submit
+calculateTotal();
 } catch (error) {
 console.error('Fetch Error:', error);
 alert("Gagal membuat transaksi.");
@@ -136,7 +135,7 @@ const shippingFeeFormatted = formData.get("shipping-fee");
 paymentInfo.innerHTML = `
 <div class="payment-content">
 <h3>Transaksi Berhasil Dibuat</h3>
-<p>Kode transaksi: <b id="transaction-code">${uniqueCode}</b><button id="copy-code" class="copy-btn">Salin</button></p>
+<p>Kode transaksi: <b>${uniqueCode}</b></p>
 <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
 <div class="data-payment">
 <table>
@@ -169,15 +168,6 @@ paymentInfo.innerHTML = `
 `;
 paymentInfo.style.display = "block";
 }
-
-document.getElementById('copy-code').addEventListener('click', () => {
-navigator.clipboard.writeText(uniqueCode).then(() => {
-alert("Kode transaksi berhasil disalin!");
-}).catch(err => {
-console.error("Gagal menyalin teks: ", err);
-});
-});
-
 
 // Tutup informasi pembayaran
 document.addEventListener('click', function (e) {
