@@ -925,6 +925,68 @@ font-size:15px;
 font-weight:600;
 text-align:center;
 }
+/* SOCIALPROOF */
+.socialproof{
+box-sizing:border-box;
+padding:20px;
+margin:0 auto;
+z-index:3;
+position:fixed;
+max-width:1000px;
+width:100%;
+bottom:150px;
+display:none;
+}
+.socialproof-content{
+box-sizing:border-box;
+background-color:#ffffff;
+padding:20px;
+margin:0;
+max-width:30%;
+overflow:hidden;
+border-radius:20px;
+box-shadow:0 0 30px rgba(0, 0, 0, 0.1);
+}
+.socialproof-content p{
+color:#333333;
+padding:0;
+margin:0;
+font-size:15px;
+}
+.socialproof-content p span{
+font-weight:600;
+}
+.socialproof-close{
+position: absolute;
+top: 8px;
+right: 8px;
+height: 12px;
+width: 12px;
+cursor: pointer;
+transition: .2s ease-in-out;
+transform: rotate(45deg);
+opacity: 0;
+}
+.socialproof-close::before{
+content: "";
+display: block;
+width: 100%;
+height: 2px;
+background-color:gray;
+position: absolute;
+left: 0;
+top: 5px;
+}
+.socialproof-close::after{
+content: "";
+display: block;
+height: 100%;
+width: 2px;
+background-color: gray;
+position: absolute;
+left: 5px;
+top: 0;
+}
 /* ARTICLE */
 .article{
 box-sizing:border-box;
