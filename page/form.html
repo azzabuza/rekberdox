@@ -83,6 +83,7 @@ function downloadPDF() {
     }
 
     // Buat objek jsPDF
+    const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
     // Set font
