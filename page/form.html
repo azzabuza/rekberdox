@@ -73,53 +73,17 @@
 <script>
 // Fungsi untuk mengunduh data transaksi sebagai PDF
 function downloadPDF() {
-    // Ambil konten dari class 'payment-content'
+    // Ambil konten dari class 'payment-content' yang ada pada popup
     const paymentContent = document.querySelector('.payment-content');
-
-    // Pastikan konten ada
+    
+    // Pastikan ada konten yang ingin diunduh
     if (!paymentContent) {
         alert("Data transaksi tidak ditemukan.");
         return;
     }
 
     // Buat objek jsPDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    // Set font
-    doc.setFont("helvetica");
-
-    // Tambahkan judul
-    doc.text("Data Transaksi", 10, 10);
-
-    // Ambil data dari tabel di dalam payment-content
-    const tables = paymentContent.querySelectorAll('.data-payment table');
-    
-    let yOffset = 20;
-
-    // Loop melalui semua tabel dan tambahkan ke PDF
-    tables.forEach((table, index) => {
-        const rows = table.querySelectorAll('tr');
-        
-        // Menambahkan setiap baris tabel ke PDF
-        rows.forEach((row, rowIndex) => {
-            const columns = row.querySelectorAll('td');
-            let text = `${columns[0].textContent}: ${columns[1].textContent}`;
-            doc.text(text, 10, yOffset);
-            yOffset += 10;
-        });
-
-        // Tambahkan jarak antar tabel
-        yOffset += 5;
-    });
-
-    // Unduh PDF dengan nama 'data_transaksi.pdf'
-    doc.save("data_transaksi.pdf");
-}
-
-// Menambahkan event listener untuk tombol 'Unduh Data Transaksi'
-document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
-
+   
 </script>
 <script src="../asset/js/tbot.js"></script>
 <script src="../asset/js/form.js"></script>
