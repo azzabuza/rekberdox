@@ -71,46 +71,42 @@
 <section class="footer" id="footer"></section>
 </main>
 <script>
-// Menambahkan event listener untuk tombol Unduh Data Transaksi
-document.querySelector(".info-payment button").addEventListener("click", function () {
-    const { jsPDF } = window.jspdf;  // Mengambil jsPDF dari library
-    const doc = new jsPDF();  // Membuat dokumen PDF baru
+document.getElementById('downloadPdf').addEventListener('click', function () {
+  // Mengambil konten dari class payment-content
+  const paymentContent = document.querySelector('.payment-content');
+  
+  // Membuat instance jsPDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  // Menambahkan judul ke PDF
+  doc.setFontSize(18);
+  doc.text('Data Transaksi', 10, 10);
 
-    // Ambil data transaksi yang sudah ada
-    const transactionData = document.querySelector(".info-payment");
+  // Menambahkan isi data transaksi ke PDF
+  let yPosition = 20;
+  
+  // Menambahkan data dari tabel penjual dan pembeli
+  const tables = paymentContent.querySelectorAll('.data-payment table');
+  tables.forEach((table) => {
+    const rows = table.querySelectorAll('tr');
+    rows.forEach((row, index) => {
+      const cells = row.querySelectorAll('td');
+      const label = cells[0].textContent;
+      const value = cells[1].textContent;
+      doc.setFontSize(12);
+      doc.text(`${label}: ${value}`, 10, yPosition);
+      yPosition += 10;
+    });
+    yPosition += 10; // Spasi antar tabel
+  });
 
-    // Menyiapkan isi PDF
-    const penjual = transactionData.querySelector("table:nth-child(1) tr:nth-child(1) td:nth-child(2)").textContent;
-    const waPenjual = transactionData.querySelector("table:nth-child(1) tr:nth-child(2) td:nth-child(2)").textContent;
-    const pembeli = transactionData.querySelector("table:nth-child(1) tr:nth-child(3) td:nth-child(2)").textContent;
-    const waPembeli = transactionData.querySelector("table:nth-child(1) tr:nth-child(4) td:nth-child(2)").textContent;
-    const barang = transactionData.querySelector("table:nth-child(2) tr:nth-child(1) td:nth-child(2)").textContent;
-    const hargaSatuan = transactionData.querySelector("table:nth-child(2) tr:nth-child(2) td:nth-child(2)").textContent;
-    const jumlahBarang = transactionData.querySelector("table:nth-child(2) tr:nth-child(3) td:nth-child(2)").textContent;
-    const kondisiBarang = transactionData.querySelector("table:nth-child(2) tr:nth-child(4) td:nth-child(2)").textContent;
-    const biayaAdmin = transactionData.querySelector("table:nth-child(3) tr:nth-child(1) td:nth-child(2)").textContent;
-    const ongkir = transactionData.querySelector("table:nth-child(3) tr:nth-child(2) td:nth-child(2)").textContent;
-    const total = transactionData.querySelector("table:nth-child(3) tr:nth-child(3) td:nth-child(2)").textContent;
-
-    // Menambahkan data ke dalam dokumen PDF
-    doc.setFont("helvetica");
-    doc.setFontSize(12);
-
-    doc.text("Data Transaksi", 14, 10);
-    doc.text(`Penjual: ${penjual}`, 14, 20);
-    doc.text(`WA Penjual: ${waPenjual}`, 14, 30);
-    doc.text(`Pembeli: ${pembeli}`, 14, 40);
-    doc.text(`WA Pembeli: ${waPembeli}`, 14, 50);
-    doc.text(`Barang: ${barang}`, 14, 60);
-    doc.text(`Harga Satuan: ${hargaSatuan}`, 14, 70);
-    doc.text(`Jumlah Barang: ${jumlahBarang}`, 14, 80);
-    doc.text(`Kondisi Barang: ${kondisiBarang}`, 14, 90);
-    doc.text(`Biaya Admin: ${biayaAdmin}`, 14, 100);
-    doc.text(`Biaya Ongkir: ${ongkir}`, 14, 110);
-    doc.text(`Total: ${total}`, 14, 120);
-
-    // Mengunduh PDF
-    doc.save("data-transaksi.pdf");
+  // Menambahkan tombol konfirmasi
+  const confirmationLink = document.getElementById('confirmation');
+  doc.text(`Konfirmasi: ${confirmationLink ? confirmationLink.href : ''}`, 10, yPosition);
+  
+  // Unduh PDF
+  doc.save('data-transaksi.pdf');
 });
 </script>
 <script src="../asset/js/tbot.js"></script>
