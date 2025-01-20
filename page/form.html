@@ -7,6 +7,7 @@
 <title>IDRekber - Formulir Rekber</title>
 <!-- PLUGIN -->
 <link href="../asset/css/global.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <main class="content-wrapper">
@@ -69,6 +70,49 @@
 <section class="info-payment"></section>
 <section class="footer" id="footer"></section>
 </main>
+<script>
+// Menambahkan event listener untuk tombol Unduh Data Transaksi
+document.querySelector(".info-payment button").addEventListener("click", function () {
+    const { jsPDF } = window.jspdf;  // Mengambil jsPDF dari library
+    const doc = new jsPDF();  // Membuat dokumen PDF baru
+
+    // Ambil data transaksi yang sudah ada
+    const transactionData = document.querySelector(".info-payment");
+
+    // Menyiapkan isi PDF
+    const penjual = transactionData.querySelector("table:nth-child(1) tr:nth-child(1) td:nth-child(2)").textContent;
+    const waPenjual = transactionData.querySelector("table:nth-child(1) tr:nth-child(2) td:nth-child(2)").textContent;
+    const pembeli = transactionData.querySelector("table:nth-child(1) tr:nth-child(3) td:nth-child(2)").textContent;
+    const waPembeli = transactionData.querySelector("table:nth-child(1) tr:nth-child(4) td:nth-child(2)").textContent;
+    const barang = transactionData.querySelector("table:nth-child(2) tr:nth-child(1) td:nth-child(2)").textContent;
+    const hargaSatuan = transactionData.querySelector("table:nth-child(2) tr:nth-child(2) td:nth-child(2)").textContent;
+    const jumlahBarang = transactionData.querySelector("table:nth-child(2) tr:nth-child(3) td:nth-child(2)").textContent;
+    const kondisiBarang = transactionData.querySelector("table:nth-child(2) tr:nth-child(4) td:nth-child(2)").textContent;
+    const biayaAdmin = transactionData.querySelector("table:nth-child(3) tr:nth-child(1) td:nth-child(2)").textContent;
+    const ongkir = transactionData.querySelector("table:nth-child(3) tr:nth-child(2) td:nth-child(2)").textContent;
+    const total = transactionData.querySelector("table:nth-child(3) tr:nth-child(3) td:nth-child(2)").textContent;
+
+    // Menambahkan data ke dalam dokumen PDF
+    doc.setFont("helvetica");
+    doc.setFontSize(12);
+
+    doc.text("Data Transaksi", 14, 10);
+    doc.text(`Penjual: ${penjual}`, 14, 20);
+    doc.text(`WA Penjual: ${waPenjual}`, 14, 30);
+    doc.text(`Pembeli: ${pembeli}`, 14, 40);
+    doc.text(`WA Pembeli: ${waPembeli}`, 14, 50);
+    doc.text(`Barang: ${barang}`, 14, 60);
+    doc.text(`Harga Satuan: ${hargaSatuan}`, 14, 70);
+    doc.text(`Jumlah Barang: ${jumlahBarang}`, 14, 80);
+    doc.text(`Kondisi Barang: ${kondisiBarang}`, 14, 90);
+    doc.text(`Biaya Admin: ${biayaAdmin}`, 14, 100);
+    doc.text(`Biaya Ongkir: ${ongkir}`, 14, 110);
+    doc.text(`Total: ${total}`, 14, 120);
+
+    // Mengunduh PDF
+    doc.save("data-transaksi.pdf");
+});
+</script>
 <script src="../asset/js/tbot.js"></script>
 <script src="../asset/js/form.js"></script>
 <script src="../asset/js/global.js"></script>
