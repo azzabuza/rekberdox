@@ -137,7 +137,6 @@ paymentInfo.innerHTML = `
 <h3>Transaksi Berhasil Dibuat</h3>
 <p>Kode transaksi: <b>${uniqueCode}</b></p>
 <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
-<button  id="downloadPdf">Unduh Data Transaksi</button>
 <div class="data-payment">
 <table>
 <tr><td>Penjual</td><td>${formData.get("Nama Penjual")}</td></tr>
