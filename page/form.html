@@ -71,50 +71,54 @@
 <section class="footer" id="footer"></section>
 </main>
 <script>
-document.getElementById('downloadPdf').addEventListener('click', function () {
-    // Ambil konten data transaksi
+// Fungsi untuk mengunduh data transaksi sebagai PDF
+function downloadPDF() {
+    // Ambil konten dari class 'payment-content'
     const paymentContent = document.querySelector('.payment-content');
-    
-    // Periksa jika konten tidak ada
+
+    // Pastikan konten ada
     if (!paymentContent) {
-        alert('Data transaksi tidak ditemukan!');
+        alert("Data transaksi tidak ditemukan.");
         return;
     }
 
-    // Inisialisasi jsPDF
-    const { jsPDF } = window.jspdf;
+    // Buat objek jsPDF
     const doc = new jsPDF();
 
-    // Menambahkan judul ke PDF
-    doc.setFontSize(18);
-    doc.text('Data Transaksi', 10, 10);
+    // Set font
+    doc.setFont("helvetica");
 
-    let yPosition = 20; // Posisi vertikal di PDF untuk elemen berikutnya
+    // Tambahkan judul
+    doc.text("Data Transaksi", 10, 10);
 
-    // Ambil tabel data transaksi dari elemen .data-payment
+    // Ambil data dari tabel di dalam payment-content
     const tables = paymentContent.querySelectorAll('.data-payment table');
-    tables.forEach((table) => {
-        const rows = table.querySelectorAll('tr');
-        rows.forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            const label = cells[0].textContent;
-            const value = cells[1].textContent;
+    
+    let yOffset = 20;
 
-            // Menambahkan setiap baris data transaksi ke PDF
-            doc.setFontSize(12);
-            doc.text(`${label}: ${value}`, 10, yPosition);
-            yPosition += 10;
+    // Loop melalui semua tabel dan tambahkan ke PDF
+    tables.forEach((table, index) => {
+        const rows = table.querySelectorAll('tr');
+        
+        // Menambahkan setiap baris tabel ke PDF
+        rows.forEach((row, rowIndex) => {
+            const columns = row.querySelectorAll('td');
+            let text = `${columns[0].textContent}: ${columns[1].textContent}`;
+            doc.text(text, 10, yOffset);
+            yOffset += 10;
         });
-        yPosition += 10; // Spasi antar tabel
+
+        // Tambahkan jarak antar tabel
+        yOffset += 5;
     });
 
-    // Menambahkan konfirmasi (link) jika ada
-    const confirmationLink = document.getElementById('confirmation');
-    doc.text(`Konfirmasi: ${confirmationLink ? confirmationLink.href : ''}`, 10, yPosition);
+    // Unduh PDF dengan nama 'data_transaksi.pdf'
+    doc.save("data_transaksi.pdf");
+}
 
-    // Unduh PDF
-    doc.save('data-transaksi.pdf');
-});
+// Menambahkan event listener untuk tombol 'Unduh Data Transaksi'
+document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
+
 </script>
 <script src="../asset/js/tbot.js"></script>
 <script src="../asset/js/form.js"></script>
