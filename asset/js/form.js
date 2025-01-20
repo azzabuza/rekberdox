@@ -150,13 +150,13 @@ paymentInfo.innerHTML = `
 <tr><td>Barang</td><td>${formData.get("Nama Barang")}</td></tr>
 <tr><td>Satuan</td><td>${formData.get("Harga Satuan")}</td></tr>
 <tr><td>Jumlah</td><td>${formData.get("Jumlah Barang")}</td></tr>
-<tr><td>Kondisi Barang</td><td>${formData.get("Kondisi Barang")}</td></tr>
+<tr><td>Kondisi</td><td>${formData.get("Kondisi Barang")}</td></tr>
 </table>
 </div>
 <div class="data-payment">
 <table>
 <tr><td>Biaya Admin</td><td>${adminFeeFormatted}</td></tr>
-<tr><td>Biaya Pengiriman</td><td>${shippingFeeFormatted}</td></tr>
+<tr><td>Biaya Ongkir</td><td>${shippingFeeFormatted}</td></tr>
 <tr><td>Total</td><td>${totalFormatted}</td></tr>
 </table>
 </div>
