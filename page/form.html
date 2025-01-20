@@ -71,19 +71,56 @@
 <section class="footer" id="footer"></section>
 </main>
 <script>
-// Fungsi untuk mengunduh data transaksi sebagai PDF
+// Fungsi untuk mengunduh data pembayaran sebagai PDF
 function downloadPDF() {
-    // Ambil konten dari class 'payment-content' yang ada pada popup
-    const paymentContent = document.querySelector('.payment-content');
+    // Ambil semua elemen yang memiliki class 'data-payment'
+    const paymentDataList = document.querySelectorAll('.data-payment');
     
-    // Pastikan ada konten yang ingin diunduh
-    if (!paymentContent) {
-        alert("Data transaksi tidak ditemukan.");
+    // Pastikan ada elemen yang mengandung data pembayaran
+    if (paymentDataList.length === 0) {
+        alert("Data pembayaran tidak ditemukan.");
         return;
     }
 
     // Buat objek jsPDF
-   
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Set font
+    doc.setFont("helvetica");
+
+    // Tambahkan judul
+    doc.text("Data Pembayaran", 10, 10);
+    let yOffset = 20;
+
+    // Loop melalui setiap elemen data-payment dan tambahkan ke PDF
+    paymentDataList.forEach((paymentData, index) => {
+        const rows = paymentData.querySelectorAll('table tr');
+        
+        // Tambahkan judul data pembayaran jika ini bukan data pertama
+        if (index !== 0) {
+            yOffset += 10;
+            doc.addPage(); // Menambahkan halaman baru jika lebih dari 1 data pembayaran
+        }
+
+        // Loop melalui baris tabel dan tambahkan data ke PDF
+        rows.forEach((row) => {
+            const columns = row.querySelectorAll('td');
+            let text = `${columns[0].textContent}: ${columns[1].textContent}`;
+            doc.text(text, 10, yOffset);
+            yOffset += 10;
+        });
+
+        // Tambahkan jarak antar bagian data pembayaran
+        yOffset += 5;
+    });
+
+    // Unduh PDF dengan nama 'data_pembayaran.pdf'
+    doc.save("data_pembayaran.pdf");
+}
+
+// Menambahkan event listener untuk tombol 'Unduh Data Pembayaran'
+document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
 </script>
 <script src="../asset/js/tbot.js"></script>
 <script src="../asset/js/form.js"></script>
