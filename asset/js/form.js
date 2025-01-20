@@ -135,7 +135,7 @@ const shippingFeeFormatted = formData.get("shipping-fee");
 paymentInfo.innerHTML = `
 <div class="payment-content">
 <h3>Transaksi Berhasil Dibuat</h3>
-<p>Kode transaksi: <b>${uniqueCode}</b></p>
+<p>Kode transaksi: <b id="transaction-code">${uniqueCode}</b><button id="copy-code" class="copy-btn">Salin</button></p>
 <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
 <div class="data-payment">
 <table>
@@ -168,6 +168,15 @@ paymentInfo.innerHTML = `
 `;
 paymentInfo.style.display = "block";
 }
+
+document.getElementById('copy-code').addEventListener('click', () => {
+navigator.clipboard.writeText(uniqueCode).then(() => {
+alert("Kode transaksi berhasil disalin!");
+}).catch(err => {
+console.error("Gagal menyalin teks: ", err);
+});
+});
+
 
 // Tutup informasi pembayaran
 document.addEventListener('click', function (e) {
