@@ -3,7 +3,7 @@ const scriptURL = 'https://script.google.com/macros/s/AKfycbx9VidO21wA6S6VVTGg2L
 
 // Format angka dengan titik pemisah ribuan dan awalan "Rp"
 function formatRupiah(value) {
-const number = value.replace(/[^0-9]/g, '');
+const number = value.replace(/[^0-9]/g, ''); // Hanya angka yang diperbolehkan
 if (!number) return 'Rp 0';
 return `Rp ${parseInt(number, 10).toLocaleString('id-ID')}`;
 }
@@ -24,6 +24,8 @@ function calculateTotal() {
 const priceValue = document.getElementById('price').value.replace(/[^0-9]/g, '');
 const quantity = parseInt(document.getElementById('quantity').value) || 0;
 const price = parseInt(priceValue) || 0;
+const shippingFeeValue = document.getElementById('shipping-fee').getAttribute('data-value') || 0; // Mengambil nilai asli dari data atribut
+const shippingFee = parseInt(shippingFeeValue) || 0;
 
 // Validasi input
 if (quantity <= 0 || price <= 0) {
@@ -32,22 +34,36 @@ document.getElementById('total').value = 'Rp 0';
 return;
 }
 
-// Hitung subtotal dan biaya admin
+// Hitung subtotal, biaya admin, dan total
 const subtotal = price * quantity;
 const adminFee = calculateAdminFee(subtotal);
-const total = subtotal + adminFee;
+const total = subtotal + adminFee + shippingFee;
 
-// Tampilkan biaya admin dan total
+// Tampilkan biaya admin, biaya pengiriman, dan total
 document.getElementById('admin-fee').value = `Rp ${adminFee.toLocaleString('id-ID')}`;
 document.getElementById('total').value = `Rp ${total.toLocaleString('id-ID')}`;
+document.getElementById('shipping-fee').value = formatRupiah(shippingFeeValue); // Format biaya pengiriman menjadi Rupiah
 
-return { adminFee, total };
+return { adminFee, total, shippingFee };
 }
 
 // Format rupiah pada input harga
 document.getElementById('price').addEventListener('input', function (e) {
-const rawValue = e.target.value.replace(/[^0-9]/g, '');
-e.target.value = formatRupiah(rawValue);
+const rawValue = e.target.value.replace(/[^0-9]/g, ''); // Menghapus karakter selain angka
+e.target.value = formatRupiah(rawValue); // Mengubah format menjadi Rupiah
+calculateTotal();
+});
+
+// Format rupiah pada input shipping fee (biaya pengiriman)
+document.getElementById('shipping-fee').addEventListener('input', function (e) {
+const rawValue = e.target.value.replace(/[^0-9]/g, ''); // Menghapus karakter selain angka
+const formattedValue = formatRupiah(rawValue); // Format menjadi Rupiah
+
+// Menyimpan nilai asli (tanpa format Rupiah) di data atribut
+e.target.setAttribute('data-value', rawValue);
+
+// Mengubah tampilan nilai dengan format Rupiah
+e.target.value = formattedValue;
 calculateTotal();
 });
 
@@ -56,11 +72,10 @@ document.getElementById('quantity').addEventListener('input', calculateTotal);
 
 // Menetapkan kode unik pada saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function () {
-  const uniqueCode = `TRX-${Date.now()}`;  // Menambahkan awalan "TRX-"
-  document.getElementById('unique-code').value = uniqueCode;
-  calculateTotal();
+const uniqueCode = `TRX-${Date.now()}`;// Menambahkan awalan "TRX-"
+document.getElementById('unique-code').value = uniqueCode;
+calculateTotal();
 });
-
 
 // Menangani pengiriman formulir
 document.getElementById('shoppingForm').addEventListener('submit', async function (e) {
@@ -68,12 +83,13 @@ e.preventDefault();
 
 const formData = new FormData(e.target);
 
-// Ambil data biaya admin dan total dari kalkulasi
-const { adminFee, total } = calculateTotal();
+// Ambil data biaya admin, total, dan biaya pengiriman dari kalkulasi
+const { adminFee, total, shippingFee } = calculateTotal();
 
 // Format nilai sebelum dikirim ke Spreadsheet
 formData.append('admin-fee', `Rp ${adminFee.toLocaleString('id-ID')}`);
 formData.append('total', `Rp ${total.toLocaleString('id-ID')}`);
+formData.append('shipping-fee', `Rp ${shippingFee.toLocaleString('id-ID')}`);
 
 // Validasi data
 if (![...formData.values()].every(value => value.trim())) {
@@ -87,9 +103,9 @@ try {
 const response = await fetch(scriptURL, { method: 'POST', body: formData });
 if (!response.ok) throw new Error(`Server error: ${response.status}`);
 const result = await response.json();
-displayPaymentInfo(formData, adminFee, total);
+displayPaymentInfo(formData, adminFee, total, shippingFee);
 e.target.reset();
-calculateTotal();
+calculateTotal(); // Reset biaya admin dan total setelah submit
 } catch (error) {
 console.error('Fetch Error:', error);
 alert("Gagal membuat transaksi.");
@@ -105,7 +121,7 @@ document.getElementById("waiting-process").style.display = isLoading ? "block" :
 }
 
 // Tampilkan informasi pembayaran
-function displayPaymentInfo(formData, adminFee, total) {
+function displayPaymentInfo(formData, adminFee, total, shippingFee) {
 const paymentInfo = document.querySelector(".info-payment");
 
 // Ambil kode unik
@@ -114,6 +130,7 @@ const uniqueCode = formData.get("Kode Transaksi");
 // Format nilai admin-fee dan total
 const adminFeeFormatted = `Rp ${parseInt(formData.get("admin-fee").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
 const totalFormatted = `Rp ${parseInt(formData.get("total").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
+const shippingFeeFormatted = formData.get("shipping-fee");
 
 paymentInfo.innerHTML = `
 <div class="payment-content">
@@ -133,8 +150,13 @@ paymentInfo.innerHTML = `
 <tr><td>Barang</td><td>${formData.get("Nama Barang")}</td></tr>
 <tr><td>Satuan</td><td>${formData.get("Harga Satuan")}</td></tr>
 <tr><td>Jumlah</td><td>${formData.get("Jumlah Barang")}</td></tr>
-<tr><td>Jumlah</td><td>${formData.get("Kondisi Barang")}</td></tr>
-<tr><td>Biaya</td><td>${adminFeeFormatted}</td></tr>
+<tr><td>Kondisi Barang</td><td>${formData.get("Kondisi Barang")}</td></tr>
+</table>
+</div>
+<div class="data-payment">
+<table>
+<tr><td>Biaya Admin</td><td>${adminFeeFormatted}</td></tr>
+<tr><td>Biaya Pengiriman</td><td>${shippingFeeFormatted}</td></tr>
 <tr><td>Total</td><td>${totalFormatted}</td></tr>
 </table>
 </div>
