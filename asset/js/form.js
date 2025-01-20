@@ -1,3 +1,4 @@
+apakah ada yang salah dari kode berikut?
 // URL Script Apps
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx9VidO21wA6S6VVTGg2Lrb6rGS8-QMkiS3pOl5OjiydhRGfr-JA0sCEQbUGxTmC0fhYQ/exec';
 
@@ -70,28 +71,12 @@ calculateTotal();
 // Hitung ulang total saat jumlah barang berubah
 document.getElementById('quantity').addEventListener('input', calculateTotal);
 
-let uniqueCode; // Deklarasi variabel global untuk uniqueCode
-
 // Menetapkan kode unik pada saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function () {
-   uniqueCode = `TRX-${Date.now()}`; // Membuat kode unik berdasarkan timestamp
-   document.getElementById('unique-code').value = uniqueCode; // Menampilkan kode unik di input
-   calculateTotal(); // Menghitung total pada saat halaman dimuat
+const uniqueCode = `TRX-${Date.now()}`;
+document.getElementById('unique-code').value = uniqueCode;
+calculateTotal();
 });
-
-// Menangani klik pada tombol salin kode
-document.getElementById('copy-code').addEventListener('click', () => {
-   if (uniqueCode) {
-      navigator.clipboard.writeText(uniqueCode) // Menyalin kode transaksi ke clipboard
-         .then(() => {
-            alert("Kode transaksi berhasil disalin!"); // Notifikasi berhasil menyalin
-         })
-         .catch(err => {
-            console.error("Gagal menyalin teks: ", err); // Menangani error jika gagal menyalin
-         });
-   }
-});
-
 
 // Menangani pengiriman formulir
 document.getElementById('shoppingForm').addEventListener('submit', async function (e) {
@@ -184,6 +169,14 @@ paymentInfo.innerHTML = `
 `;
 paymentInfo.style.display = "block";
 }
+
+document.getElementById('copy-code').addEventListener('click', () => {
+navigator.clipboard.writeText(uniqueCode).then(() => {
+alert("Kode transaksi berhasil disalin!");
+}).catch(err => {
+console.error("Gagal menyalin teks: ", err);
+});
+});
 
 
 // Tutup informasi pembayaran
