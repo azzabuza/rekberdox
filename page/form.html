@@ -7,7 +7,6 @@
 <title>IDRekber - Formulir Rekber</title>
 <!-- PLUGIN -->
 <link href="../asset/css/global.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <main class="content-wrapper">
@@ -70,45 +69,6 @@
 <section class="info-payment"></section>
 <section class="footer" id="footer"></section>
 </main>
-<script>
-document.getElementById('downloadPdf').addEventListener('click', function () {
-  // Mengambil konten dari class payment-content
-  const paymentContent = document.querySelector('.payment-content');
-  
-  // Membuat instance jsPDF
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  
-  // Menambahkan judul ke PDF
-  doc.setFontSize(18);
-  doc.text('Data Transaksi', 10, 10);
-
-  // Menambahkan isi data transaksi ke PDF
-  let yPosition = 20;
-  
-  // Menambahkan data dari tabel penjual dan pembeli
-  const tables = paymentContent.querySelectorAll('.data-payment table');
-  tables.forEach((table) => {
-    const rows = table.querySelectorAll('tr');
-    rows.forEach((row, index) => {
-      const cells = row.querySelectorAll('td');
-      const label = cells[0].textContent;
-      const value = cells[1].textContent;
-      doc.setFontSize(12);
-      doc.text(`${label}: ${value}`, 10, yPosition);
-      yPosition += 10;
-    });
-    yPosition += 10; // Spasi antar tabel
-  });
-
-  // Menambahkan tombol konfirmasi
-  const confirmationLink = document.getElementById('confirmation');
-  doc.text(`Konfirmasi: ${confirmationLink ? confirmationLink.href : ''}`, 10, yPosition);
-  
-  // Unduh PDF
-  doc.save('data-transaksi.pdf');
-});
-</script>
 <script src="../asset/js/tbot.js"></script>
 <script src="../asset/js/form.js"></script>
 <script src="../asset/js/global.js"></script>
