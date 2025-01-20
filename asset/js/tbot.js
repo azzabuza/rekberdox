@@ -10,6 +10,7 @@ const product = document.getElementById('product').value;
 const price = document.getElementById('price').value;
 const quantity = document.getElementById('quantity').value;
 const condition = document.getElementById('condition').value;
+const shipping = document.getElementById('shipping-fee').value;
 const adminFee = document.getElementById('admin-fee').value;
 const total = document.getElementById('total').value;
 const trx = document.getElementById('unique-code').value;
@@ -41,6 +42,7 @@ const message = `
 <b>Jumlah:</b> ${quantity}
 <b>Kondisi:</b> ${condition}\n
 <b>Biaya Admin:</b> ${adminFee}
+<b>Ongkir:</b> ${shipping}
 <b>Total:</b> ${total}
 <b>Kode Transaksi:</b> ${trx}
 `;
