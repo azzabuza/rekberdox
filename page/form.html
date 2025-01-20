@@ -72,41 +72,48 @@
 </main>
 <script>
 document.getElementById('downloadPdf').addEventListener('click', function () {
-  // Mengambil konten dari class payment-content
-  const paymentContent = document.querySelector('.payment-content');
-  
-  // Membuat instance jsPDF
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  
-  // Menambahkan judul ke PDF
-  doc.setFontSize(18);
-  doc.text('Data Transaksi', 10, 10);
+    // Ambil konten data transaksi
+    const paymentContent = document.querySelector('.payment-content');
+    
+    // Periksa jika konten tidak ada
+    if (!paymentContent) {
+        alert('Data transaksi tidak ditemukan!');
+        return;
+    }
 
-  // Menambahkan isi data transaksi ke PDF
-  let yPosition = 20;
-  
-  // Menambahkan data dari tabel penjual dan pembeli
-  const tables = paymentContent.querySelectorAll('.data-payment table');
-  tables.forEach((table) => {
-    const rows = table.querySelectorAll('tr');
-    rows.forEach((row, index) => {
-      const cells = row.querySelectorAll('td');
-      const label = cells[0].textContent;
-      const value = cells[1].textContent;
-      doc.setFontSize(12);
-      doc.text(`${label}: ${value}`, 10, yPosition);
-      yPosition += 10;
+    // Inisialisasi jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Menambahkan judul ke PDF
+    doc.setFontSize(18);
+    doc.text('Data Transaksi', 10, 10);
+
+    let yPosition = 20; // Posisi vertikal di PDF untuk elemen berikutnya
+
+    // Ambil tabel data transaksi dari elemen .data-payment
+    const tables = paymentContent.querySelectorAll('.data-payment table');
+    tables.forEach((table) => {
+        const rows = table.querySelectorAll('tr');
+        rows.forEach((row) => {
+            const cells = row.querySelectorAll('td');
+            const label = cells[0].textContent;
+            const value = cells[1].textContent;
+
+            // Menambahkan setiap baris data transaksi ke PDF
+            doc.setFontSize(12);
+            doc.text(`${label}: ${value}`, 10, yPosition);
+            yPosition += 10;
+        });
+        yPosition += 10; // Spasi antar tabel
     });
-    yPosition += 10; // Spasi antar tabel
-  });
 
-  // Menambahkan tombol konfirmasi
-  const confirmationLink = document.getElementById('confirmation');
-  doc.text(`Konfirmasi: ${confirmationLink ? confirmationLink.href : ''}`, 10, yPosition);
-  
-  // Unduh PDF
-  doc.save('data-transaksi.pdf');
+    // Menambahkan konfirmasi (link) jika ada
+    const confirmationLink = document.getElementById('confirmation');
+    doc.text(`Konfirmasi: ${confirmationLink ? confirmationLink.href : ''}`, 10, yPosition);
+
+    // Unduh PDF
+    doc.save('data-transaksi.pdf');
 });
 </script>
 <script src="../asset/js/tbot.js"></script>
