@@ -29,22 +29,24 @@ const shippingFee = parseInt(shippingFeeValue) || 0;
 
 // Validasi input
 if (quantity <= 0 || price <= 0) {
+document.getElementById('sub-total').value = 'Rp 0';
 document.getElementById('admin-fee').value = 'Rp 0';
 document.getElementById('total').value = 'Rp 0';
 return;
 }
 
 // Hitung subtotal, biaya admin, dan total
-const subtotal = price * quantity;
-const adminFee = calculateAdminFee(subtotal);
-const total = subtotal + adminFee + shippingFee;
+const subTotal = price * quantity;
+const adminFee = calculateAdminFee(subTotal);
+const total = subTotal + adminFee + shippingFee;
 
 // Tampilkan biaya admin, biaya pengiriman, dan total
+document.getElementById('sub-total').value = `Rp ${subTotal.toLocaleString('id-ID')}`;
 document.getElementById('admin-fee').value = `Rp ${adminFee.toLocaleString('id-ID')}`;
 document.getElementById('total').value = `Rp ${total.toLocaleString('id-ID')}`;
 document.getElementById('shipping-fee').value = formatRupiah(shippingFeeValue);
 
-return { adminFee, total, shippingFee };
+return { subTotal, adminFee, total, shippingFee };
 }
 
 // Format rupiah pada input harga
@@ -84,9 +86,10 @@ e.preventDefault();
 const formData = new FormData(e.target);
 
 // Ambil data biaya admin, total, dan biaya pengiriman dari kalkulasi
-const { adminFee, total, shippingFee } = calculateTotal();
+const { subTotal, adminFee, total, shippingFee } = calculateTotal();
 
 // Format nilai sebelum dikirim ke Spreadsheet
+formData.append('sub-total', `Rp ${subTotal.toLocaleString('id-ID')}`);
 formData.append('admin-fee', `Rp ${adminFee.toLocaleString('id-ID')}`);
 formData.append('total', `Rp ${total.toLocaleString('id-ID')}`);
 formData.append('shipping-fee', `Rp ${shippingFee.toLocaleString('id-ID')}`);
@@ -103,7 +106,7 @@ try {
 const response = await fetch(scriptURL, { method: 'POST', body: formData });
 if (!response.ok) throw new Error(`Server error: ${response.status}`);
 const result = await response.json();
-displayPaymentInfo(formData, adminFee, total, shippingFee);
+displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee);
 e.target.reset();
 calculateTotal();
 } catch (error) {
@@ -121,13 +124,14 @@ document.getElementById("waiting-process").style.display = isLoading ? "block" :
 }
 
 // Tampilkan informasi pembayaran
-function displayPaymentInfo(formData, adminFee, total, shippingFee) {
+function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
 const paymentInfo = document.querySelector(".info-payment");
 
 // Ambil kode unik
 const uniqueCode = formData.get("Kode Transaksi");
 
 // Format nilai admin-fee dan total
+const subTotalFormatted = `Rp ${parseInt(formData.get("sub-total").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
 const adminFeeFormatted = `Rp ${parseInt(formData.get("admin-fee").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
 const totalFormatted = `Rp ${parseInt(formData.get("total").replace(/[^0-9]/g, ''), 10).toLocaleString('id-ID')}`;
 const shippingFeeFormatted = formData.get("shipping-fee");
@@ -155,6 +159,7 @@ paymentInfo.innerHTML = `
 </div>
 <div class="data-payment">
 <table>
+<tr><td>Sub Total</td><td>${subTotalFormatted}</td></tr>
 <tr><td>Biaya Admin</td><td>${adminFeeFormatted}</td></tr>
 <tr><td>Biaya Ongkir</td><td>${shippingFeeFormatted}</td></tr>
 <tr><td>Total</td><td>${totalFormatted}</td></tr>
