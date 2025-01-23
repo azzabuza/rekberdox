@@ -31,7 +31,8 @@ second: '2-digit'
 
 // MESSAGE FORMAT FOR BOTS
 const message = `
-<b>MIN ADA ORDERAN REKBER NIH!!!</b>\n
+<b>MIN ADA ORDERAN REKBER NIH!!!</b>
+<b>Kode Transaksi:</b> ${trx}\n
 <b>Tanggal:</b> ${formattedDate}
 <b>Waktu:</b> ${formattedTime}\n
 <b>Nama Penjual:</b> ${name1}
@@ -46,7 +47,6 @@ const message = `
 <b>Biaya Admin:</b> ${adminFee}
 <b>Ongkir:</b> ${shipping}
 <b>Total:</b> ${total}
-<b>Kode Transaksi:</b> ${trx}
 `;
 
 // SEND DATA TO TELEGRAM BOT
