@@ -146,7 +146,7 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
     paymentInfo.innerHTML = `
     <div class="payment-content">
         <h3>Transaksi Berhasil Dibuat</h3>
-        <p>Kode transaksi: <b>${uniqueCode}</b></p>
+        <p>Kode transaksi: <span id="xCode">${uniqueCode}</span> </p>
         <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
         <div class="data-payment">
             <table>
