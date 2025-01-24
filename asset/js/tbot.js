@@ -2,19 +2,19 @@ document.getElementById('shoppingForm').addEventListener('submit', function(even
 event.preventDefault();
 
 // GET DATA FROM
-const name1 = document.getElementById('name1').value;
-const whatsapp1 = document.getElementById('whatsapp1').value;
-const name2 = document.getElementById('name2').value;
-const whatsapp2 = document.getElementById('whatsapp2').value;
-const product = document.getElementById('product').value;
-const price = document.getElementById('price').value;
-const quantity = document.getElementById('quantity').value;
-const condition = document.getElementById('condition').value;
-const shipping = document.getElementById('shipping-fee').value;
-const subTotal = document.getElementById('sub-total').value;
-const adminFee = document.getElementById('admin-fee').value;
-const total = document.getElementById('total').value;
-const trx = document.getElementById('unique-code').value;
+const notifName1 = document.getElementById('name1').value;
+const notifWhatsapp1 = document.getElementById('whatsapp1').value;
+const notifName2 = document.getElementById('name2').value;
+const notifWhatsapp2 = document.getElementById('whatsapp2').value;
+const notifProduct = document.getElementById('product').value;
+const notifPrice = document.getElementById('price').value;
+const notifQuantity = document.getElementById('quantity').value;
+const notifCondition = document.getElementById('condition').value;
+const notifShipping = document.getElementById('shipping-fee').value;
+const notifSubTotal = document.getElementById('sub-total').value;
+const notifAdminFee = document.getElementById('admin-fee').value;
+const notifTotal = document.getElementById('total').value;
+const notifCode = document.getElementById('unique-code').value;
 
 // GET CURRENT DATE AND TIME
 const now = new Date();
@@ -32,21 +32,21 @@ second: '2-digit'
 // MESSAGE FORMAT FOR BOTS
 const message = `
 <b>MIN ADA ORDERAN REKBER NIH!!!</b>
-<b>Kode Transaksi:</b> ${trx}\n
+<b>Kode Transaksi:</b> ${notifCode}\n
 <b>Tanggal:</b> ${formattedDate}
 <b>Waktu:</b> ${formattedTime}\n
-<b>Nama Penjual:</b> ${name1}
-<b>WA Penjual:</b> ${whatsapp1}
-<b>Nama Pembeli:</b> ${name2}
-<b>WA Pembeli:</b> ${whatsapp2}\n
-<b>Produk:</b> ${product}
-<b>Harga:</b> ${price}
-<b>Jumlah:</b> ${quantity}
-<b>Kondisi:</b> ${condition}\n
-<b>Sub Total:</b> ${subTotal}
-<b>Biaya Admin:</b> ${adminFee}
-<b>Ongkir:</b> ${shipping}
-<b>Total:</b> ${total}
+<b>Nama Penjual:</b> ${notifName1}
+<b>WA Penjual:</b> ${notifWhatsapp1}
+<b>Nama Pembeli:</b> ${notifName2}
+<b>WA Pembeli:</b> ${notifWhatsapp2}\n
+<b>Produk:</b> ${notifProduct}
+<b>Harga:</b> ${notifPrice}
+<b>Jumlah:</b> ${notifQuantity}
+<b>Kondisi:</b> ${notifCondition}\n
+<b>Sub Total:</b> ${notifSubTotal}
+<b>Biaya Admin:</b> ${notifAdminFee}
+<b>Ongkir:</b> ${notifShipping}
+<b>Total:</b> ${notifTotal}
 `;
 
 // SEND DATA TO TELEGRAM BOT
