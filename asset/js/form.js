@@ -187,26 +187,26 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
         <p>Salin kode transaksi lalu kirim melalui tombol konfirmasi agar transaksi segera diproses</p>
         <div class="data-payment">
             <table>
-                <tr><td>Penjual</td><td>${formData.get("Nama Penjual")}</td></tr>
-                <tr><td>WA Penjual</td><td>${formData.get("Nomor Penjual")}</td></tr>
-                <tr><td>Pembeli</td><td>${formData.get("Nama Pembeli")}</td></tr>
-                <tr><td>WA Pembeli</td><td>${formData.get("Nomor Pembeli")}</td></tr>
+                <tr><td style="font-weight:500;">Penjual</td><td>${formData.get("Nama Penjual")}</td></tr>
+                <tr><td style="font-weight:500;">WA Penjual</td><td>${formData.get("Nomor Penjual")}</td></tr>
+                <tr><td style="font-weight:500;">Pembeli</td><td>${formData.get("Nama Pembeli")}</td></tr>
+                <tr><td style="font-weight:500;">WA Pembeli</td><td>${formData.get("Nomor Pembeli")}</td></tr>
             </table>
         </div>
         <div class="data-payment">
             <table>
-                <tr><td>Barang</td><td>${formData.get("Nama Barang")}</td></tr>
-                <tr><td>Satuan</td><td>${formData.get("Harga Satuan")}</td></tr>
-                <tr><td>Jumlah</td><td>${formData.get("Jumlah Barang")}</td></tr>
-                <tr><td>Kondisi</td><td>${formData.get("Kondisi Barang")}</td></tr>
+                <tr><td style="font-weight:500;">Barang</td><td>${formData.get("Nama Barang")}</td></tr>
+                <tr><td style="font-weight:500;">Satuan</td><td>${formData.get("Harga Satuan")}</td></tr>
+                <tr><td style="font-weight:500;">Jumlah</td><td>${formData.get("Jumlah Barang")}</td></tr>
+                <tr><td style="font-weight:500;">Kondisi</td><td>${formData.get("Kondisi Barang")}</td></tr>
             </table>
         </div>
         <div class="data-payment">
             <table>
-                <tr><td>Sub Total</td><td>${subTotalFormatted}</td></tr>
-                <tr><td>Biaya Admin</td><td>${adminFeeFormatted}</td></tr>
-                <tr><td>Biaya Ongkir</td><td>${shippingFeeFormatted}</td></tr>
-                <tr><td>Total</td><td>${totalFormatted}</td></tr>
+                <tr><td style="font-weight:500;">Sub Total</td><td>${subTotalFormatted}</td></tr>
+                <tr><td style="font-weight:500;">Biaya Admin</td><td>${adminFeeFormatted}</td></tr>
+                <tr><td style="font-weight:500;">Biaya Ongkir</td><td>${shippingFeeFormatted}</td></tr>
+                <tr><td style="font-weight:500;">Total</td><td>${totalFormatted}</td></tr>
             </table>
         </div>
         <div class="nav-payment">
