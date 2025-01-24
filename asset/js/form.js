@@ -136,28 +136,28 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
 
 // Copy code TRX
 function copyText() {
-const textElement = document.getElementById('xCode');
-if (!textElement) return;
+  const textElement = document.getElementById('xCode');
+  if (!textElement) return;
 
-const codeText = textElement.textContent;
+  const codeText = textElement.textContent;
 
-if (navigator.clipboard) {
-navigator.clipboard.writeText(codeText)
-.then(() => alert('Wallet address copied successfully!'))
-.catch(err => console.error('Failed to copy text:', err));
-} else {
-const textArea = document.createElement("textarea");
-textArea.value = codeText;
-document.body.appendChild(textArea);
-textArea.select();
-try {
-document.execCommand('copy');
-alert('Wallet address copied successfully!');
-} catch (err) {
-console.error('Failed to copy text:', err);
-}
-document.body.removeChild(textArea);
-}
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(codeText)
+      .then(() => alert('Kode transaksi berhasil disalin!'))
+      .catch(err => console.error('Gagal menyalin teks:', err));
+  } else {
+    const textArea = document.createElement("textarea");
+    textArea.value = codeText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      alert('Kode transaksi berhasil disalin!');
+    } catch (err) {
+      console.error('Gagal menyalin teks:', err);
+    }
+    document.body.removeChild(textArea);
+  }
 }
     
     // Ambil kode unik
