@@ -141,25 +141,32 @@ function copyText() {
 
   const codeText = textElement.textContent;
 
+  // Modern Clipboard API
   if (navigator.clipboard) {
     navigator.clipboard.writeText(codeText)
       .then(() => alert('Kode transaksi berhasil disalin!'))
       .catch(err => console.error('Gagal menyalin teks:', err));
   } else {
+    // Fallback untuk browser yang tidak mendukung clipboard API modern
     const textArea = document.createElement("textarea");
     textArea.value = codeText;
     document.body.appendChild(textArea);
+    textArea.style.position = "absolute";  // Pastikan tidak mengganggu layout
+    textArea.style.opacity = "0";  // Membuat textarea tidak terlihat
     textArea.select();
     try {
-      document.execCommand('copy');
-      alert('Kode transaksi berhasil disalin!');
+      const successful = document.execCommand('copy');
+      if (successful) {
+        alert('Kode transaksi berhasil disalin!');
+      } else {
+        console.error('Gagal menyalin teks');
+      }
     } catch (err) {
       console.error('Gagal menyalin teks:', err);
     }
     document.body.removeChild(textArea);
   }
-}
-    
+}    
     // Ambil kode unik
     const uniqueCode = formData.get("Kode Transaksi");
 
