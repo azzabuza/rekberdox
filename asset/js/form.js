@@ -79,6 +79,40 @@ document.addEventListener('DOMContentLoaded', function () {
     calculateTotal();
 });
 
+// Fungsi salin teks
+async function copyText() {
+    const textElement = document.getElementById('xCode');
+    
+    if (!textElement || !textElement.textContent) {
+        console.error("Elemen dengan ID 'xCode' tidak ditemukan atau kontennya kosong.");
+        return;
+    }
+
+    const codeText = textElement.textContent.trim();
+    if (!codeText) {
+        console.error("Tidak ada teks untuk disalin.");
+        return;
+    }
+
+    try {
+        if (navigator.clipboard) {
+            await navigator.clipboard.writeText(codeText);
+            alert('Kode transaksi berhasil disalin!');
+        } else {
+            const textArea = document.createElement("textarea");
+            textArea.value = codeText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Kode transaksi berhasil disalin (fallback)!');
+        }
+    } catch (err) {
+        console.error('Gagal menyalin teks:', err);
+        alert('Terjadi kesalahan saat menyalin kode transaksi!');
+    }
+}
+
 // Menangani pengiriman formulir
 document.getElementById('shoppingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -134,49 +168,6 @@ function toggleLoading(isLoading) {
 function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
     const paymentInfo = document.querySelector(".info-payment");
 
-// Copy code TRX
-async function copyText() {
-  const textElement = document.getElementById('xCode');
-  
-  // Verifikasi apakah elemen ada dan memiliki konten
-  if (!textElement || !textElement.textContent) {
-    console.error("Elemen dengan ID 'xCode' tidak ditemukan atau kontennya kosong.");
-    return;
-  }
-
-  const codeText = textElement.textContent.trim();  // Trim untuk memastikan tidak ada spasi yang tak diinginkan
-  console.log("Konten yang akan disalin: ", codeText);
-
-  if (!codeText) {
-    console.error("Tidak ada teks untuk disalin.");
-    return;
-  }
-
-  try {
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(codeText);
-      alert('Kode transaksi berhasil disalin!');
-    } else {
-      // Fallback untuk browser yang tidak mendukung Clipboard API
-      const textArea = document.createElement("textarea");
-      textArea.value = codeText;
-      document.body.appendChild(textArea);
-      textArea.select();
-      const success = document.execCommand('copy');
-      if (success) {
-        alert('Kode transaksi berhasil disalin!');
-      } else {
-        console.error('Gagal menyalin teks menggunakan execCommand.');
-      }
-      document.body.removeChild(textArea);
-    }
-  } catch (err) {
-    console.error('Gagal menyalin teks:', err);
-    alert('Terjadi kesalahan saat menyalin kode transaksi!');
-  }
-}
-
-    
     // Ambil kode unik
     const uniqueCode = formData.get("Kode Transaksi");
 
