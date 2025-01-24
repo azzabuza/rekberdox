@@ -137,12 +137,15 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
 // Copy code TRX
 async function copyText() {
   const textElement = document.getElementById('xCode');
-  if (!textElement) {
-    console.error("Elemen dengan ID 'xCode' tidak ditemukan.");
+  
+  // Verifikasi apakah elemen ada dan memiliki konten
+  if (!textElement || !textElement.textContent) {
+    console.error("Elemen dengan ID 'xCode' tidak ditemukan atau kontennya kosong.");
     return;
   }
 
   const codeText = textElement.textContent.trim();  // Trim untuk memastikan tidak ada spasi yang tak diinginkan
+  console.log("Konten yang akan disalin: ", codeText);
 
   if (!codeText) {
     console.error("Tidak ada teks untuk disalin.");
@@ -154,6 +157,7 @@ async function copyText() {
       await navigator.clipboard.writeText(codeText);
       alert('Kode transaksi berhasil disalin!');
     } else {
+      // Fallback untuk browser yang tidak mendukung Clipboard API
       const textArea = document.createElement("textarea");
       textArea.value = codeText;
       document.body.appendChild(textArea);
@@ -171,6 +175,7 @@ async function copyText() {
     alert('Terjadi kesalahan saat menyalin kode transaksi!');
   }
 }
+
     
     // Ambil kode unik
     const uniqueCode = formData.get("Kode Transaksi");
