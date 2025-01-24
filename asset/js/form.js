@@ -211,7 +211,7 @@ paymentInfo.innerHTML = `
 </div>
 <div class="nav-payment">
 <button id="close">Tutup</button>
-<a href="<a href="https://wa.me/6285640067363?text=Halo%20admin%20IDRekber,%20saya%20ingin%20menggunakan%20layanan%20rekber%0AKODE:" target="_blank">Hubungi Admin IDRekber di WhatsApp</a>
+<a href="<a href="https://wa.me/6285640067363?text=Halo%20admin%20IDRekber,%20saya%20ingin%20menggunakan%20layanan%20rekber%0AKODE:%20">Hubungi Admin IDRekber di WhatsApp</a>
 " id="confirmation">Konfirmasi</a>
 </div>
 </div>
