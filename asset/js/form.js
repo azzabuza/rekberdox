@@ -134,6 +134,32 @@ function toggleLoading(isLoading) {
 function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
     const paymentInfo = document.querySelector(".info-payment");
 
+// Copy code TRX
+function copyText() {
+const textElement = document.getElementById('xCode');
+if (!textElement) return;
+
+const codeText = textElement.textContent;
+
+if (navigator.clipboard) {
+navigator.clipboard.writeText(codeText)
+.then(() => alert('Wallet address copied successfully!'))
+.catch(err => console.error('Failed to copy text:', err));
+} else {
+const textArea = document.createElement("textarea");
+textArea.value = codeText;
+document.body.appendChild(textArea);
+textArea.select();
+try {
+document.execCommand('copy');
+alert('Wallet address copied successfully!');
+} catch (err) {
+console.error('Failed to copy text:', err);
+}
+document.body.removeChild(textArea);
+}
+}
+    
     // Ambil kode unik
     const uniqueCode = formData.get("Kode Transaksi");
 
@@ -146,7 +172,7 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
     paymentInfo.innerHTML = `
     <div class="payment-content">
         <h3>Transaksi Berhasil Dibuat</h3>
-        <p>Kode transaksi: <span id="xCode">${uniqueCode}</span> <svg class="line" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="none" stroke="currentColor">
+        <p>Kode transaksi: <span id="xCode">${uniqueCode}</span> <svg class="line" id="cpyBtn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="none" stroke="currentColor">
 <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
 </svg></p>
         <p>Sebentar lagi admin akan menghubungimu atau klik konfirmasi agar segera terhubung dengan admin.</p>
