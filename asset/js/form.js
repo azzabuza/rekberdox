@@ -211,7 +211,7 @@ paymentInfo.innerHTML = `
 </div>
 <div class="nav-payment">
 <button id="close">Tutup</button>
-<a href="https://wa.me/6285640067363?text=Halo%20admin%20IDRekber,%0A%0ASaya%20ingin%20menggunakan%20layanan%20rekber%20dengan%20KODE%20TRANSAKSI:${uniqueCode}">Konfirmasi</a>
+<a href="https://wa.me/6285640067363?text=Halo%20admin%20IDRekber,%0A%0ASaya%20ingin%20menggunakan%20layanan%20rekber%20dengan%20KODE%20TRANSAKSI:${uniqueCode}" id="confirmation">Konfirmasi</a>
 </div>
 </div>
 `;
