@@ -135,38 +135,31 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
     const paymentInfo = document.querySelector(".info-payment");
 
 // Copy code TRX
-function copyText() {
+async function copyText() {
   const textElement = document.getElementById('xCode');
   if (!textElement) return;
 
-  const codeText = textElement.textContent;
+  const codeText = textElement.textContent.trim();
 
-  // Modern Clipboard API
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(codeText)
-      .then(() => alert('Kode transaksi berhasil disalin!'))
-      .catch(err => console.error('Gagal menyalin teks:', err));
-  } else {
-    // Fallback untuk browser yang tidak mendukung clipboard API modern
-    const textArea = document.createElement("textarea");
-    textArea.value = codeText;
-    document.body.appendChild(textArea);
-    textArea.style.position = "absolute";  // Pastikan tidak mengganggu layout
-    textArea.style.opacity = "0";  // Membuat textarea tidak terlihat
-    textArea.select();
-    try {
-      const successful = document.execCommand('copy');
-      if (successful) {
-        alert('Kode transaksi berhasil disalin!');
-      } else {
-        console.error('Gagal menyalin teks');
-      }
-    } catch (err) {
-      console.error('Gagal menyalin teks:', err);
+  try {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(codeText);
+      alert('Kode transaksi berhasil disalin!');
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = codeText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      alert('Kode transaksi berhasil disalin!');
+      document.body.removeChild(textArea);
     }
-    document.body.removeChild(textArea);
+  } catch (err) {
+    console.error('Gagal menyalin teks:', err);
+    alert('Terjadi kesalahan saat menyalin kode transaksi!');
   }
-}    
+}
+    
     // Ambil kode unik
     const uniqueCode = formData.get("Kode Transaksi");
 
