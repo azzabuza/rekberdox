@@ -137,9 +137,17 @@ function displayPaymentInfo(formData, subTotal, adminFee, total, shippingFee) {
 // Copy code TRX
 async function copyText() {
   const textElement = document.getElementById('xCode');
-  if (!textElement) return;
+  if (!textElement) {
+    console.error("Elemen dengan ID 'xCode' tidak ditemukan.");
+    return;
+  }
 
-  const codeText = textElement.textContent.trim();
+  const codeText = textElement.textContent.trim();  // Trim untuk memastikan tidak ada spasi yang tak diinginkan
+
+  if (!codeText) {
+    console.error("Tidak ada teks untuk disalin.");
+    return;
+  }
 
   try {
     if (navigator.clipboard) {
@@ -150,8 +158,12 @@ async function copyText() {
       textArea.value = codeText;
       document.body.appendChild(textArea);
       textArea.select();
-      document.execCommand('copy');
-      alert('Kode transaksi berhasil disalin!');
+      const success = document.execCommand('copy');
+      if (success) {
+        alert('Kode transaksi berhasil disalin!');
+      } else {
+        console.error('Gagal menyalin teks menggunakan execCommand.');
+      }
       document.body.removeChild(textArea);
     }
   } catch (err) {
